@@ -1,0 +1,75 @@
+La siguiente tabal contiene los alimentos agrupados por categrías:
+
+
+Verduras
+Nombre			|	Porción
+Acelga cruda 	|	2 tazas
+Apio crudo		| 	1.5 tazas
+Alcachofa 		| 	1 pieza
+Berro crudo 	| 	1.5 tazas
+Brócoli crudo 	|	1 taza
+Calabacita cruda| 	1 pieza
+Cilantro		|	2 tazas
+Col crdua		|	2 tazas
+Coliflor cruda	|	2 tazas
+Ejote			|	.5 tazas
+Espárragos		|	6 piezas
+Espinacas 		|	2 tazas
+Flor de calabaza|	1 taza
+Hongos crudos	|	1 taza
+Jicama 			|	1.5 tazas
+Jitomate		|	2 piezas
+Lechuga			|	3 tazas
+Nopal crudo		|	2 piezas
+Pimiento crudo	|	0.5 tazas
+Perejil 		|	1 taza
+Quelites crudo 	|	1 taza
+Rábanos			| 	1 taza
+Romeritos		|	.66 taza
+Tomate			|	5 piezas
+Verdolagas		|	2 tazas
+Pepinos			|	1 taza
+Betabel			|	.25 pieza
+Calabaza cocida |	.5 taza
+Cebolla			|	.5 taza
+Cebolla cambray	|	3 piezas
+Chayote			|	.5 taza
+Chilchayote		|	.5 taza
+Col de bruselas	|	3 piezas
+Chícharos		|	.25 taza
+Huitlacoche		|	.33 taza
+Huauzontle		|	.5 taza
+Zanahoria		|	.5 taza
+Chile poblano	|	.5 pieza
+
+
+
+Frutas
+Nombre			|	Porción
+Arándanos		|	.25 taza
+Capulines		|	4 piezas
+Chabacano		|	4 piezas medianas
+Ciruelas		|	3 piezas medianas
+Ciruela pasa	|	3 piezas medianas
+Durazno			|	1 taza
+Frambuesa		|	1 taza
+Fresa			|	1 taza
+Guayaba 		|	3 piezas medianas
+Higo			|	2 piezas
+Lichis			|	12 piezas
+Mango			|	.5 pieza
+Mandarina 		|	2 piezas
+Mamey			|	.33 peizas
+Manzana			|	1 pieza chica
+Melon 			|	1 taza
+Naranja			|	1 pieza
+Papaya			|	1 taza
+Pera			|	.5 pieza
+Plátano			|	.5 pieza
+Piña			|	.66 taza
+Sandía			|	1 taza
+Toronja			|	1 pieza
+Tuna			|	2 piezas
+Uvas			|	18 piezas
+Zapote negro	|	.5 pieza
+Zarzamora		|	.66 taza

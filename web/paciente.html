@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<title>Mi Cheff</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="paciente.css">
+</head>
+
+<body>
+	<h1>Mi Cheff</h1>
+	<p>Por favor llene ls siguiente informacion</p>
+	<div class="formulario"></div>
+	<form action="" method="GET">
+		<fieldset>
+				<legend class="legend">Datos</legend>
+				<label for="nombre">Nombre</label><input type="text" name="nombre">
+				Apallido Paterno <input type="text" name="paterno">
+				Apellido Materno <input type="text" name="materno">
+				Peso <input type="number" name="peso" min="1" max="200">
+				Estatura <input type="number" name="estatura" min="1" max="200" step="0.1" pattern="[0-2]\.[0-9][0-9]?">
+				Cintura <input type="number" name="cintura" min="1" max="200">
+				Cadera <input type="number" name="cadera" min="1" max="200">
+				Correo <input type="email" name="correo" min="1" max="200">
+				Telefono <input type="text" name="telefono" min="1" max="200">
+				Genero <select name="sexo">
+					<option value="h">Masculino</option>
+					<option value="m">Femenino</option>
+				</select>
+				<input id="submit" name="submit" value="Enviar">
+
+		</fieldset>
+
+	</form>
+
+	<form>
+		<table>
+			<tbody>
+				<tr>
+					<td>Nombre</td>
+					<td><input type="text" name="nombre"></td>
+				</tr>
+				<tr>
+					<td>Apellido Paterno</td>
+					<td><input type="text" name="paterno"></td>
+				</tr>
+				<tr>
+					<td>Apellido Materno</td>
+					<td><input type="text" name="paterno"></td>
+				</tr>
+				<tr>
+					<td>Peso</td>
+					<td> <input type="number" name="peso" min="1" max="200"></td>
+				</tr>
+				<tr>
+					<td>Estatura</td>
+					<td> <input type="number" name="estatura" min="1" max="200" step="0.1" pattern="[0-2]\.[0-9][0-9]?"></td>
+				</tr>
+				<tr>
+					<td>Cintura</td>
+					<td> <input type="number" name="cintura" min="1" max="200" step="1"></td>
+				</tr>
+				<tr>
+					<td>Cadera</td>
+					<td> <input type="number" name="cadera" min="1" max="200" step="1"></td>
+				</tr>
+				<tr>
+					<td>Correo</td>
+					<td> <input type="email" name="Correo"></td>
+				</tr>
+				<tr>
+					<td>Telefono</td>
+					<td> <input type="tel" name="telefono"></td>
+				</tr>
+				<tr>
+					<td>Sexo</td>
+					<td><select name="sexo">
+							<option value="h">Masculino</option>
+							<option value="m">Femenino</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<input type="submit" name="enviar">
+	</form>
+</body>
+
+</html>
