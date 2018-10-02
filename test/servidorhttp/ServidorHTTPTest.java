@@ -5,6 +5,7 @@
  */
 package servidorhttp;
 
+import java.util.Properties;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,22 +18,22 @@ import static org.junit.Assert.*;
  * @author emilio
  */
 public class ServidorHTTPTest {
-    
+
     public ServidorHTTPTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -48,16 +49,65 @@ public class ServidorHTTPTest {
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
-    
+
     @Test
-    public void testExtension(){
-        String archivo =  "/image.png";
+    public void testExtension() {
+        String archivo = "/image.png";
         String[] tokens = archivo.split("\\.");
-        String extension = tokens[tokens.length-1];
+        String extension = tokens[tokens.length - 1];
         System.out.println(extension);
         System.out.println(archivo.substring(1, archivo.length()));
         System.out.println(archivo.substring(1));
         System.out.println(archivo.split("\\.")[1]);
+
+    }
+
+    @Test
+    public void testExtractFormValues() {
+        Properties expectedProperties = new Properties();
+        expectedProperties.put("nombre", "Emilio");
+        expectedProperties.put("paterno", "Hernandez");
+        expectedProperties.put("materno", "Segovia");
+        expectedProperties.put("peso", "64");
+        expectedProperties.put("estatura", "1.72");
+        expectedProperties.put("cintura", "65");
+        expectedProperties.put("cadera", "60");
+        expectedProperties.put("correo", "mok.boss%40hotmail.com");
+        expectedProperties.put("telefono", "55-21-19-55-14");
+        expectedProperties.put("sexo", "h");
+        expectedProperties.put("submit", "Enviar");
+        
+        String data = "/web/paciente.html?nombre=Emilio&paterno=Hernandez&materno=Segovia&peso=64&estatura=1.72&cintura=65&cadera=60&correo=mok.boss%40hotmail.com&telefono=55-21-19-55-14&sexo=h&submit=Enviar";
+        Properties result = servidorhttp.ServidorHTTP.extractFormValues(data);
+        assertEquals(expectedProperties, result);
+        System.out.println(result);
+        
+    }
+    
+    @Test
+    public void testpropertiesToHtml(){
+        Properties expectedProperties = new Properties();
+        expectedProperties.put("nombre", "Emilio");
+        expectedProperties.put("paterno", "Hernandez");
+        expectedProperties.put("materno", "Segovia");
+        expectedProperties.put("peso", "64");
+        expectedProperties.put("estatura", "1.72");
+        expectedProperties.put("cintura", "65");
+        expectedProperties.put("cadera", "60");
+        expectedProperties.put("correo", "mok.boss%40hotmail.com");
+        expectedProperties.put("telefono", "55-21-19-55-14");
+        expectedProperties.put("sexo", "h");
+        expectedProperties.put("submit", "Enviar");
+        
+        System.out.println(servidorhttp.ServidorHTTP.propertiesToHtml(expectedProperties));
+    }
+    
+    @Test
+    public void testIsResource(){
+        String getForm = "/web/paciente.html?nombre=Emilio&paterno=Hernandez&materno=Segovia&peso=64&estatura=1.72&cintura=65&cadera=60&correo=mok.boss%40hotmail.com&telefono=55-21-19-55-14&sexo=h&submit=Enviar";
+        String getResource = "GET /web/paciente.html HTTP/1.1";
+        System.out.println(getForm + " = " + servidorhttp.ServidorHTTP.isResource(getForm));
+        System.out.println(getResource + " = " + servidorhttp.ServidorHTTP.isResource(getResource));
         
     }
 }

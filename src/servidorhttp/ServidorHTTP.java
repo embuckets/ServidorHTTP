@@ -6,7 +6,6 @@
 package servidorhttp;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,13 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.URL;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,8 +37,23 @@ public class ServidorHTTP {
                 Socket cliente = socket.accept();
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(cliente.getInputStream()));
+
                 String input = reader.readLine();
                 System.out.println(input);
+                System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
+                System.out.println();
+
+                if (input == null) {
+                    continue;
+                }
+
                 String[] tokens = input.split(" ");
                 String recurso = tokens[1];
                 responder(cliente, recurso.substring(1));
@@ -50,27 +61,33 @@ public class ServidorHTTP {
         } catch (IOException ex) {
             Logger.getLogger(
                     ServidorHTTP.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                    Level.SEVERE, null, ex);
         }
     }
 
     private static void responder(Socket socket, String recurso) {
-        File file = new File(recurso);
-        if (!file.exists()) {
-            pageNotFound(socket);
-            return;
-        }
-        String[] archivo = recurso.split("\\.");
-        String extension = archivo[archivo.length - 1];
 
-        if (isWebPage(extension)) {
-            sendWebPage(socket, recurso);
-            return;
+        if (isResource(recurso)) {
+            File file = new File(recurso);
+            if (!file.exists()) {
+                pageNotFound(socket);
+                return;
+            }
+            String[] archivo = recurso.split("\\.");
+            String extension = archivo[archivo.length - 1];
 
-        } else if (isImage(extension)) {
-            sendImage(socket, recurso);
-            return;
+            if (isTextFile(extension)) {
+                sendWebPage(socket, recurso);
+                return;
+
+            } else if (isImage(extension)) {
+                sendImage(socket, recurso);
+                return;
+            }
+        } else { //si es GET de formulario
+            sendData(socket, extractFormValues(recurso));
         }
+
     }
 
     private static void pageNotFound(Socket socket) {
@@ -91,8 +108,12 @@ public class ServidorHTTP {
 
     }
 
-    private static boolean isWebPage(String extension) {
-        return extension.equals("html");
+    public static boolean isResource(String recurso) {
+        return !recurso.contains("?");
+    }
+
+    private static boolean isTextFile(String extension) {
+        return (extension.equals("html") || extension.equals("css"));
     }
 
     private static boolean isImage(String extension) {
@@ -105,7 +126,7 @@ public class ServidorHTTP {
                 PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
             char[] html = new char[(int) file.length()];
             fileReader.read(html, 0, html.length);
-            String header = "HTTP/1.1 200 OK\nContent-length: " + file.length() + "\nContent-type: text/html\n\n";
+            String header = "HTTP/1.1 200 OK\nContent-length: " + file.length() + "\nContent-type: text/" + recurso.split("\\.")[1] + "\n\n";
             String respuesta = header + String.valueOf(html);
             writer.write(respuesta);
             writer.flush();
@@ -136,6 +157,48 @@ public class ServidorHTTP {
         } catch (IOException ex1) {
             Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex1);
         }
+    }
+
+    private static void sendData(Socket socket, Properties data) {
+        String beginning = "<!DOCTYPE html>\n"
+                + "<html lang=\"es\">\n"
+                + "\n"
+                + "<head>\n"
+                + "<title>Mi Cheff</title>\n"
+                + "<meta charset=\"utf-8\">\n"
+                + "</head>\n"
+                + "\n"
+                + "<body><h1>Datos</h1>\n";
+        String body = propertiesToHtml(data);
+        String end = "</body>\n"
+                + "</html>";
+
+        String fullPage = beginning + body + end;
+        String header = "HTTP/1.1 200 OK\nContent-length: " + fullPage.length() + "\nContent-type: text/html\n\n";
+        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+            writer.write(header);
+            writer.write(fullPage);
+            writer.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static Properties extractFormValues(String data) {
+        Properties props = new Properties();
+        String keyValues = data.split("\\?")[1];
+        String[] keyValuePairs = keyValues.split("&");
+        for (String kvp : keyValuePairs) {
+            String[] kv = kvp.split("=");
+            props.put(kv[0], kv[1]);
+        }
+        return props;
+    }
+
+    public static String propertiesToHtml(Properties props) {
+        String propsString = props.toString();
+        String result = propsString.replace("{", "").replace("}", "<br>\n").replace(", ", "<br>\n");
+        return result;
     }
 
 }
