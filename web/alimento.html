@@ -11,27 +11,24 @@
 	<h1>Alimento</h1>
 	<p>Por favor llene ls siguiente informacion</p>
 
-	<form>
-		<table>
-			<tbody>
-				<tr>
-					<td>Nombre</td>
-					<td><input type="text" name="nombre"></td>
-				</tr>
-				<tr>
-					<td>Categoria</td>
-					<td><select name="categoria">
-							<option value="fruta">fruta</option>
-							<option value="verdura">verdura</option>
-							<option value="pescado">pescado</option>
-							<option value="res">res</option>
-							<option value="huevo">huevo</option>
-						</select>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<input type="submit" name="enviar">
+	<form action="" method="GET">
+		<fieldset>
+			<legend>Alimento</legend>
+			<label>Nombre</label><input type="text" name="nombre">
+			<label>Categoria</label><select name="categoria">
+				<option value="animal">origen animal</option>
+				<option value="pescado">pescado/marisco</option>
+				<option value="huevo">huevo</option>
+				<option value="quesos">quesos</option>
+				<option value="grasas">grasas</option>
+				<option value="oleaginosas">oleaginosas</option>
+				<option value="jugos">jugos de fruta</option>
+				<option value="fruta">fruta</option>
+				<option value="verdura">verdura</option>
+				<option value="libres">alimentos libre</option>
+				</select>
+				<input type="submit" name="submit" value="Enviar">
+		</fieldset>
 	</form>
 
 </body>
