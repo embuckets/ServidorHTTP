@@ -2,14 +2,51 @@
 <html lang="es">
 
 <head>
-	<title>Mi Cheff</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="foro.css">
+    <title>Mi Cheff - Foro</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="foro.css">
+    <script>
+        function addReply() {
+            var textArea = document.getElementById("tarea");
+            var text = textArea.value;
+            if (text == ""){
+                return;
+            }
+            textArea.value = "";
+
+            var cont = document.createTextNode(text);
+            var respuesta = document.createElement("p");
+            respuesta.appendChild(cont);
+            var fecha = new Date();
+            var h = document.createElement("h2");
+            h.innerHTML = fecha.toLocaleString();
+
+            var res = document.createElement("div");
+            res.className = "respuesta";
+            res.appendChild(h);
+            res.appendChild(respuesta);
+
+            var parent = document.getElementById("respuestas");
+            parent.appendChild(res);
+        }
+    </script>
 </head>
 
 <body>
     <h1>Foro</h1>
-    
+    <div id="foro">
+        <div id="pregunta">
+            <h2>Como hago un foro en JavaScript</h2>
+            <p>El profesor me pidio de tarea hacer un foro en HTML pero no se nada de JavaScript. Me pueden ayudar</p>
+        </div>
+        <div id="respuestas">
+        </div>
+    </div>
+    <div id="reply">
+        <textarea name="tarea" id="tarea" cols="" rows="10" placeholder="Responder"></textarea>
+        <button  onclick="addReply()">Reply</button>
+    </div>
+
 
 </body>
 
