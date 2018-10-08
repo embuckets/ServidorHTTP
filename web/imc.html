@@ -12,19 +12,18 @@
 			var resultado;
 			resultado = peso / (estatura * estatura);
 			 document.getElementById("imc").innerHTML = resultado;
-
 		}
 	</script>
 </head>
 
 <body>
 	<h1>Calcula tu IMC</h1>
-	<p>Por favor llene ls siguiente informacion</p>
+	<p>Por favor llene las siguiente información</p>
 
 	<form id="formulario" action="" method="GET">
 		<fieldset>
 			<legend>IMC</legend>
-			<label>Peso</label><input type="number" name="peso" min="1" max="200">kg
+			<label>Peso</label><input type="number" name="peso" min="1" max="200"> (kg)
 			<label>Estatura</label><input type="number" name="altura" min="1" max="2.50" step="0.01">(cm)
 			<button type="button" onclick="imc()">Enviar</button>
 		</fieldset>

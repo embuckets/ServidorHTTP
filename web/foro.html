@@ -13,19 +13,27 @@
                 return;
             }
             textArea.value = "";
-
+            //extrae el texto y crea los elementos de la respuesta
             var cont = document.createTextNode(text);
             var respuesta = document.createElement("p");
             respuesta.appendChild(cont);
             var fecha = new Date();
             var h = document.createElement("h2");
             h.innerHTML = fecha.toLocaleString();
-
+            // crea el enlace de correo
+            var footer = document.createElement("h3");
+            var mail = document.createElement("a") ;
+            var body = text.replace(" ", "%20")
+            mail.setAttribute("href", "mailto:contacto@miCheff.com?subject=Hola%20Cheff&body=" + body);
+            mail.innerHTML = "Enviar como correo";
+            footer.appendChild(mail);
+            //crea el contenedor de la respuesta y anexa los hijos
             var res = document.createElement("div");
             res.className = "respuesta";
             res.appendChild(h);
             res.appendChild(respuesta);
-
+            res.appendChild(footer);
+            //anexa la respuesta al contenedor de respuestas
             var parent = document.getElementById("respuestas");
             parent.appendChild(res);
         }
@@ -46,6 +54,7 @@
         <textarea name="tarea" id="tarea" cols="" rows="10" placeholder="Responder"></textarea>
         <button  onclick="addReply()">Reply</button>
     </div>
+    <a href="mailto:"></a>
 
 
 </body>

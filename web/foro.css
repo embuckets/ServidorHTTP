@@ -44,6 +44,13 @@ button:active {
 .respuesta h2 {
     border-bottom: 1px solid lightgray;
 }
+.respuesta h3 {
+    border-top: 1px solid lightgray;
+}
+.respuesta a {
+    color: gray;
+    font-size: smaller;
+}
 
 textarea {
     width: 50%;

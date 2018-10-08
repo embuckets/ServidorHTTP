@@ -2,67 +2,63 @@
 <html lang="es">
 
 <head>
-	<title>Mi Cheff</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="paciente.css">
-	<script type="text/javascript"> 
-		function validateForm() {
-    var nombre = document.forms["formulario"]["nombre"].value;
-    var paterno = document.forms["formulario"]["paterno"].value;
-    var materno = document.forms["formulario"]["materno"].value;
-    var peso = document.forms["formulario"]["peso"].value;
-    var estatura = document.forms["formulario"]["estatura"].value;
-    var cintura = document.forms["formulario"]["cintura"].value;
-    var cadera = document.forms["formulario"]["cadera"].value;
-    var correo = document.forms["formulario"]["correo"].value;
-    var telefono = document.forms["formulario"]["telefono"].value;
-    /*var alertas = new Array();*/
+    <title>Mi Cheff</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="paciente.css">
+    <script type="text/javascript">
+        function validateForm() {
+            var nombre = document.forms["formulario"]["nombre"].value;
+            var paterno = document.forms["formulario"]["paterno"].value;
+            var materno = document.forms["formulario"]["materno"].value;
+            var telefono = document.forms["formulario"]["telefono"].value;
 
-    if (nombre == "") {
-    	/*alertas.push("Nombre no puede estar vacío\n");
-        alert(alertas.toString());*/
-        alert("Apellido paterno no puede estar vacío");
-        return false;
-    }
-    if (paterno == "") {
-        alert("Apellido paterno no puede estar vacío");
-        return false;
-    }
-    if (materno == "") {
-        alert("Apellido paterno no puede estar vacío");
-        return false;
-    }
-    if (telefono.length != 10 | telefono.length != 8) {
-        alert("Telefono debe ser solamente de 10 digitos");
-        return false;
-    }
+            if (nombre == "") {
+                alert("Nombre no puede estar vacío");
+                return false;
+            }
+            if (paterno == "") {
+                alert("Apellido paterno no puede estar vacío");
+                return false;
+            }
+            if (materno == "") {
+                alert("Apellido materno no puede estar vacío");
+                return false;
+            }
+            if (isNaN(telefono)) {
+                alert("Telefono debe ser solamente de 8 o 10 digitos");
+                return false;
+            }
+            if ((telefono.length != 10 && telefono.length != 8)) {
+                alert("Telefono debe ser solamente de 8 o 10 digitos");
+                return false;
+            }
 
-}
-	</script>
+        }
+    </script>
 </head>
 
 <body>
-	<h1>Mi Cheff</h1>
-	<p>Por favor llene ls siguiente informacion</p>
-	<div class="formulario"></div>
-	<form id="formulario" action="" method="GET" onsubmit="return validateForm()">
-		<fieldset>
-				<legend class="legend">Datos</legend>
-				<label for="nombre">Nombre</label><input type="text" name="nombre">
-				Apallido Paterno <input type="text" name="paterno">
-				Apellido Materno <input type="text" name="materno">
-				Peso <input type="number" name="peso" min="1" max="200">  (kg)
-				Estatura <input type="number" name="estatura" min="1" max="2.50" step="0.01">(cm)
-				Cintura <input type="number" name="cintura" min="1" max="200">(cm)
-				Cadera <input type="number" name="cadera" min="1" max="200">(cm)
-				Correo <input type="email" name="correo">
-				Telefono (10)<input type="text" name="telefono">
-				Genero <select name="sexo">
-					<option value="h">Masculino</option>
-					<option value="m">Femenino</option>
-				</select>
-                <input type="submit" id="submit" name="submit" value="Enviar">
-		</fieldset>
+    <h1>Mi Cheff</h1>
+    <p>Por favor llene ls siguiente informacion</p>
+    <div class="formulario"></div>
+    <form id="formulario" action="" method="GET" onsubmit="return validateForm()">
+        <fieldset>
+            <legend class="legend">Datos</legend>
+            <label for="nombre">Nombre</label><input type="text" name="nombre">
+            Apallido Paterno <input type="text" name="paterno">
+            Apellido Materno <input type="text" name="materno">
+            Peso <input type="number" name="peso" min="1" max="200" required> (kg)
+            Estatura <input type="number" name="estatura" min="1" max="2.50" step="0.01" required>(cm)
+            Cintura <input type="number" name="cintura" min="1" max="200" required>(cm)
+            Cadera <input type="number" name="cadera" min="1" max="200" required>(cm)
+            Correo <input type="email" name="correo" required>
+            Telefono (10)<input type="text" name="telefono" required>
+            Genero <select name="sexo">
+                <option value="h">Masculino</option>
+                <option value="m">Femenino</option>
+            </select>
+            <input type="submit" id="submit" name="submit" value="Enviar">
+        </fieldset>
     </form>
 </body>
 
