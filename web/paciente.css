@@ -32,3 +32,8 @@ input {
     text-align: center;
     color: #004F00;
 } */
+
+#jsonobj {
+    background-color: lightgray;
+    border-radius: 20px;
+}

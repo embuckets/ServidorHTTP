@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Mi Cheff - Foro</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="foro-tabla.css">
+    <script>
+        function addReply() {
+            var textArea = document.getElementById("tarea");
+            var text = textArea.value;
+            if (text == ""){
+                return;
+            }
+            textArea.value = "";
+
+
+            var tabla = document.getElementById("foro");
+            
+
+            var rowTitulo = tabla.inserRow(-1);
+            var tituloCell = rowTitulo.insertCell(0);
+            tituloCell.className = "titulo respuesta";
+            tituloCell.innerHTML = new Date().toLocaleString();
+            
+            
+            var rowDesc = tabla.inserRow(-1);
+            var descCell = rowDesc.insertCell(0);
+            descCell.className = "respuesta desc";
+            descCell.innerHTML = text;
+
+            var rowMail = tabla.inserRow(-1);
+            var mailCell = rowDesc.insertCell(0);
+            mailCell.className = "respuesta desc";
+            var mail = document.createElement("a") ;
+            var body = text.replace(" ", "%20")
+            mail.setAttribute("href", "mailto:contacto@miCheff.com?subject=Hola%20Cheff&body=" + body);
+            mail.innerHTML = "Enviar como correo";
+            mailCell.appendChild(mail);
+    </script>
+</head>
+
+<body>
+    <h1>Foro</h1>
+    <table id="foro">
+        <tbody>
+        <tr>
+            <th class="titulo pregunta">Como hago un foro en Javascript</th>
+        </tr>
+        <tr><td class="desc pregunta">El profesor me pidio de tarea hacer un foro en HTML pero no se nada de JavaScript. Me pueden ayudar</td></tr>
+        </tbody>
+        
+    </table>
+
+    <div id="reply">
+        <textarea name="tarea" id="tarea" cols="" rows="10" placeholder="Responder"></textarea>
+        <button  onclick="addReply()">Reply</button>
+    </div>
+    <a href="mailto:"></a>
+
+
+</body>
+
+</html>

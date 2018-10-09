@@ -1,0 +1,34 @@
+#foro {
+    border-collapse: collapse;
+}
+
+#reply * {
+    display: block;
+    margin: auto;
+    margin-top: 40px;
+    font-size: 16px;
+}
+button {
+    padding: 10px 40px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    background: deepskyblue;
+    border: none;
+    border-radius: 40px;
+}
+button:active {
+    background-color: lightseagreen;
+}
+
+
+textarea {
+    width: 50%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
