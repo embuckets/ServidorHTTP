@@ -51,11 +51,6 @@
                 alert("Telefono debe ser solamente de 8 o 10 digitos");
                 return false;
             }
-            var nuevoPersona = new Persona(nombre, paterno, materno, peso, estatura, cintura, cadera, correo, telefono, genero);
-            var personaJson = JSON.stringify(nuevoPersona);
-            var jsonElement = document.getElementById("jsonobj");
-            jsonElement.innerHTML = personaJson;
-            return true;
 
         }
 
@@ -75,7 +70,6 @@
             var personaJson = JSON.stringify(nuevoPersona);
             var jsonElement = document.getElementById("jsonobj");
             jsonElement.innerHTML = personaJson;
-
         }
     </script>
 </head>
@@ -100,26 +94,11 @@
                 <option value="h">Masculino</option>
                 <option value="m">Femenino</option>
             </select>
-            
+
             <input type="submit" id="submit" name="submit" value="Enviar">
             <button type="button" onclick="createJSON()">JSON</button>
         </fieldset>
     </form>
-
-     <label for="nombre">Nombre</label><input type="text" name="nombre">
-            Apallido Paterno <input type="text" name="paterno">
-            Apellido Materno <input type="text" name="materno">
-            Peso <input type="number" name="peso" min="1" max="200" required> (kg)
-            Estatura <input type="number" name="estatura" min="1" max="2.50" step="0.01" required>(cm)
-            Cintura <input type="number" name="cintura" min="1" max="200" required>(cm)
-            Cadera <input type="number" name="cadera" min="1" max="200" required>(cm)
-            Correo <input type="email" name="correo" required>
-            Telefono (10)<input type="text" name="telefono" required>
-            Genero <select name="sexo">
-                <option value="h">Masculino</option>
-                <option value="m">Femenino</option>
-            </select>
-            <button type="button" onclick="createJSON()">Enviar</button>
 
     <p id="jsonobj"></p>
 </body>

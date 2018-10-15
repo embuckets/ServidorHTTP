@@ -4,8 +4,21 @@
 <head>
 	<title>Mi Cheff</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="alimento.css">
 	<script type="text/javascript">
+	function Alimento(nombre, categoria) {
+		this.nombre = nombre;
+		this.categoria = categoria;
+	}
+
+	function createJSON() {
+		var nombre = document.forms["forma"]["nombre"].value;
+		var categoria = document.forms["forma"]["categoria"].value;
+		
+		var alimento = new Alimento(nombre, categoria);
+		var para = document.getElementById("alimento");
+		para.innerHTML = JSON.stringify(alimento);
+	}
 		
 		
 	</script>
@@ -15,10 +28,10 @@
 	<h1>Alimento</h1>
 	<p>Por favor llene ls siguiente informacion</p>
 
-	<form action="" method="GET">
+	<form id="forma" action="" method="GET">
 		<fieldset>
 			<legend>Alimento</legend>
-			<label>Nombre</label><input type="text" name="nombre">
+			<label>Nombre</label><input type="text" name="nombre" required>
 			<label>Categoria</label><select name="categoria">
 				<option value="animal">origen animal</option>
 				<option value="pescado">pescado/marisco</option>
@@ -32,8 +45,10 @@
 				<option value="libres">alimentos libre</option>
 				</select>
 				<input type="submit" name="submit" value="Enviar">
+				<button type="button" onclick="createJSON()">JSON</button>
 		</fieldset>
 	</form>
+	<p id="alimento"></p>
 
 </body>
 
