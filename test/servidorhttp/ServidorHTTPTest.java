@@ -5,6 +5,8 @@
  */
 package servidorhttp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,7 +20,7 @@ import static org.junit.Assert.*;
  * @author emilio
  */
 public class ServidorHTTPTest {
-
+    private List<Properties> props;
     public ServidorHTTPTest() {
     }
 
@@ -32,6 +34,18 @@ public class ServidorHTTPTest {
 
     @Before
     public void setUp() {
+        props = new ArrayList<>();
+        Properties property = new Properties();
+        property.put("nombre", "emilio");
+        property.put("paterno", "hernandez");
+        property.put("materno", "segovia");
+        props.add(property);
+        property = new Properties();
+        property.put("nombre", "daniel");
+        property.put("paterno", "gomez");
+        property.put("materno", "chagoya");
+        props.add(property);
+        
     }
 
     @After
@@ -48,6 +62,20 @@ public class ServidorHTTPTest {
         ServidorHTTP.main(args);
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testToJSON() {
+        Properties props = new Properties();
+        props.put("nombre", "emilio");
+        props.put("paterno", "hernandez");
+        props.put("materno", "segovia");
+        System.out.println(ServidorHTTP.toJSON(props));
+    }
+    
+    @Test
+    public void testSaveAsJSON() {
+        ServidorHTTP.saveAsJSON(props);
     }
 
     @Test
@@ -76,16 +104,16 @@ public class ServidorHTTPTest {
         expectedProperties.put("telefono", "55-21-19-55-14");
         expectedProperties.put("sexo", "h");
         expectedProperties.put("submit", "Enviar");
-        
+
         String data = "/web/paciente.html?nombre=Emilio&paterno=Hernandez&materno=Segovia&peso=64&estatura=1.72&cintura=65&cadera=60&correo=mok.boss%40hotmail.com&telefono=55-21-19-55-14&sexo=h&submit=Enviar";
         Properties result = servidorhttp.ServidorHTTP.extractFormValues(data);
         assertEquals(expectedProperties, result);
         System.out.println(result);
-        
+
     }
-    
+
     @Test
-    public void testpropertiesToHtml(){
+    public void testpropertiesToHtml() {
         Properties expectedProperties = new Properties();
         expectedProperties.put("nombre", "Emilio");
         expectedProperties.put("paterno", "Hernandez");
@@ -98,16 +126,16 @@ public class ServidorHTTPTest {
         expectedProperties.put("telefono", "55-21-19-55-14");
         expectedProperties.put("sexo", "h");
         expectedProperties.put("submit", "Enviar");
-        
+
         System.out.println(servidorhttp.ServidorHTTP.propertiesToHtml(expectedProperties));
     }
-    
+
     @Test
-    public void testIsResource(){
+    public void testIsResource() {
         String getForm = "/web/paciente.html?nombre=Emilio&paterno=Hernandez&materno=Segovia&peso=64&estatura=1.72&cintura=65&cadera=60&correo=mok.boss%40hotmail.com&telefono=55-21-19-55-14&sexo=h&submit=Enviar";
         String getResource = "GET /web/paciente.html HTTP/1.1";
         System.out.println(getForm + " = " + servidorhttp.ServidorHTTP.isResource(getForm));
         System.out.println(getResource + " = " + servidorhttp.ServidorHTTP.isResource(getResource));
-        
+
     }
 }

@@ -11,12 +11,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +31,8 @@ import java.util.logging.Logger;
  * @author Alumno
  */
 public class ServidorHTTP {
+
+    private static List<Properties> propiedades = new ArrayList<>();
 
     /**
      * @param args the command line arguments
@@ -47,7 +55,7 @@ public class ServidorHTTP {
                 System.out.println(reader.readLine());
                 System.out.println(reader.readLine());
                 System.out.println(reader.readLine());
-                System.out.println(reader.readLine());
+//                System.out.println(reader.readLine());
                 System.out.println();
 
                 if (input == null) {
@@ -85,9 +93,40 @@ public class ServidorHTTP {
                 return;
             }
         } else { //si es GET de formulario
-            sendData(socket, extractFormValues(recurso));
+            //guardar properties en formato json 
+            Properties p = extractFormValues(recurso);
+            propiedades.add(p);
+            saveAsJSON(propiedades);
+            sendData(socket, p);
         }
 
+    }
+
+    public static String toJSON(Properties properties) {
+        String result = "{";
+        for (Entry set : properties.entrySet()) {
+            result += "\"" + set.getKey() + "\":\"" + set.getValue() + "\", ";
+        }
+        result = result.substring(0, result.length() - 2) + "}";
+        return result;
+    }
+
+    public static void saveAsJSON(List<Properties> properties) {
+        File json = new File("pacientes/json.json");
+        try (FileWriter writer = new FileWriter(json)) {
+            writer.write("{\n\"pacientes\":[\n");
+            for (Iterator it = properties.iterator(); it.hasNext();) {
+                Properties prop = (Properties) it.next();
+                writer.write(toJSON(prop));
+                if (it.hasNext()) {
+                    writer.write(",\n");
+                }
+            }
+            writer.write("\n]\n}");
+            writer.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private static void pageNotFound(Socket socket) {
