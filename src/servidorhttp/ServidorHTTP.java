@@ -152,7 +152,7 @@ public class ServidorHTTP {
     }
 
     private static boolean isTextFile(String extension) {
-        return (extension.equals("html") || extension.equals("css"));
+        return (extension.equals("html") || extension.equals("css") || extension.equals("json"));
     }
 
     private static boolean isImage(String extension) {

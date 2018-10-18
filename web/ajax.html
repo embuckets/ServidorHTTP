@@ -1,29 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Mi Cheff</title>
 	<meta charset="utf-8">
 	<script type="text/javascript">
-		var xhttp, xmlDoc, txt, x, i;
+		function Persona(nombre, paterno, materno, peso, estatura, cintura, cadera, correo, telefono, genero) {
+			this.nombre = nombre;
+			this.paterno = paterno;
+			this.materno = materno;
+			this.peso = peso;
+			this.estatura = estatura;
+			this.cintura = cintura;
+			this.cadera = cadera;
+			this.correo = correo;
+			this.telefono = telefono;
+			this.genero = genero;
+			this.nombre = function() {
+				return this.nombre;
+			};
+		}
+		var listaPacientes = [];
+
+		var xhttp, jsonDoc;
 		xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-  			jsonDoc = this.responseText;
-  			txt = "";
-  			x = xmlDoc.getElementsByTagName("ARTIST");
- 			 for (i = 0; i < x.length; i++) {
-   				 txt = txt + x[i].childNodes[0].nodeValue + "<br>";
- 			 }
-  			document.getElementById("demo").innerHTML = txt;
- 		 }
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				jsonDoc = this.responseText;
+				var jsonObj = JSON.parse(jsonDoc);
+				// document.getElementById("demo").innerHTML = jsonDoc.pacientes[0];
+				for (i in jsonObj.pacientes) {
+					var pacienteJSON = jsonObj.pacientes[i];
+					var paciente = new Persona(pacienteJSON["nombre"],
+						pacienteJSON["paterno"],
+						pacienteJSON["materno"],
+						pacienteJSON["peso"],
+						pacienteJSON["estatura"],
+						pacienteJSON["cintura"],
+						pacienteJSON["cadera"],
+						pacienteJSON["correo"],
+						pacienteJSON["telefono"],
+						pacienteJSON["telefono"],
+						pacienteJSON["genero"]);
+					listaPacientes.push(paciente);
+				}
+				for (p in listaPacientes){
+					document.getElementById("demo1").innerHTML += listaPacientes[p].nombre() + "<br>";
+				}
+			}
 		};
+
+
+
 		xhttp.open("GET", "pacientes/json.json", true);
 		xhttp.send();
+
+		// var jsonObj = JSON.parse(jsonDoc);
+		// document.getElementById("demo").innerHTML = jsonDoc.pacientes[0];
+		// for (v in jsonObj) {
+		// 	document.getElementById("demo").innerHTML += jsonObj[v] + "<br>";
+		// }
+
 	</script>
 </head>
+
 <body>
-	<button onclick=""></button>
+	<button onclick="">AJAX</button>
 	<p id="demo"></p>
+	<p id="demo1"></p>
 
 </body>
+
 </html>
