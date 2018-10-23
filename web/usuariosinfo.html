@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mi Cheff</title>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+        function Persona(nombre, paterno, materno, nacimiento, peso, estatura, cintura, cadera, correo, telefono, genero, estadoCivil) {
+            this.nombre = nombre;
+            this.paterno = paterno;
+            this.materno = materno;
+            this.nacimiento = new Date(nacimiento);
+            this.peso = peso;
+            this.estatura = estatura;
+            this.cintura = cintura;
+            this.cadera = cadera;
+            this.correo = correo;
+            this.telefono = telefono;
+            this.genero = genero;
+            this.estadoCivil = estadoCivil;
+            this.getNombreCompleto = function () {
+                return this.nombre + " " + this.paterno + " " + this.materno;
+            };
+            this.getEdad = function () {
+                var today = new Date();
+                return today.getFullYear() - this.nacimiento.getFullYear();
+            };
+            this.getEstadoCivil = function () {
+                return this.estadoCivil;
+            };
+            this.getNacimiento = function () {
+                return this.nacimiento;
+            };
+        }
+        var listaPacientes = [];
+
+        function requestJSON() {
+            var xhttp, jsonDoc;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    jsonDoc = this.responseText;
+                    var jsonObj = JSON.parse(jsonDoc);
+                    for (i in jsonObj.pacientes) {
+                        var pacienteJSON = jsonObj.pacientes[i];
+                        var paciente = new Persona(pacienteJSON["nombre"],
+                            pacienteJSON["paterno"],
+                            pacienteJSON["materno"],
+                            pacienteJSON["edad"],
+                            pacienteJSON["peso"],
+                            pacienteJSON["estatura"],
+                            pacienteJSON["cintura"],
+                            pacienteJSON["cadera"],
+                            pacienteJSON["correo"],
+                            pacienteJSON["telefono"],
+                            pacienteJSON["genero"],
+                            pacienteJSON["civil"]);
+                        listaPacientes.push(paciente);
+                    }
+                }
+            };
+            xhttp.open("GET", "pacientes/pacientes.json", true);
+            xhttp.send();
+        };
+
+        function createTable() {
+            var tabla = document.createElement("table");
+            var header = tabla.createTHead();
+            var headerRow = header.insertRow(0);
+            headerRow.insertCell(0).innerHTML = "Nombre";
+            headerRow.insertCell(1).innerHTML = "Edad";
+            headerRow.insertCell(2).innerHTML = "Fecha Nacimiento";
+            headerRow.insertCell(3).innerHTML = "Estado Civil";
+            var body = document.createElement("tbody");
+
+            for (i = 0; i < listaPacientes.length; i++) {
+                var row = body.insertRow(i);
+                var paciente = listaPacientes[i];
+                row.insertCell(0).innerHTML = paciente.getNombreCompleto();
+                row.insertCell(1).innerHTML = paciente.getEdad();
+                row.insertCell(2).innerHTML = paciente.getNacimiento().toLocaleDateString();
+                row.insertCell(3).innerHTML = paciente.getEstadoCivil();
+            }
+            tabla.appendChild(body);
+            
+            document.body.removeChild(document.getElementById("tabla"));
+            tabla.id = "tabla";
+            document.body.appendChild(tabla);
+        };
+    </script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            border: 1px solid black;
+            padding: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="requestJSON()">AJAX</button>
+    <button onclick="createTable()">Table</button>
+    <table id="tabla"></table>
+
+</body>
+
+</html>

@@ -1,7 +1,0 @@
-{
-"pacientes":[
-{"materno":"segovia", "genero":"h", "submit":"Enviar", "cintura":"60", "paterno":"hernandez", "telefono":"12345678", "estatura":"1.72", "correo":"emilio%40correo", "nombre":"emilio", "peso":"64", "cadera":"60"},
-{"materno":"segovia", "genero":"h", "submit":"Enviar", "cintura":"60", "paterno":"hernandez", "telefono":"12345678", "estatura":"1.72", "correo":"emilio%40correo", "nombre":"daniel", "peso":"64", "cadera":"60"},
-{"materno":"segovia", "genero":"m", "submit":"Enviar", "cintura":"60", "paterno":"seogvia", "telefono":"12345678", "estatura":"1.72", "correo":"emilio%40correo", "nombre":"irma", "peso":"64", "cadera":"60"}
-]
-}

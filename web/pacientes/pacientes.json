@@ -1,5 +1,5 @@
 {
-    "pacientes": [
-        {"nombre":"emilio", "paterno":"zxc"}
-    ]
+"pacientes":[
+{"materno":"Segovia", "edad":"1993-05-22", "civil":"soltero", "genero":"h", "cintura":"64", "paterno":"Hernandez", "telefono":"12345678", "correo":"emilio@correo.com", "estatura":"1.72", "nombre":"Emilio", "peso":"64", "cadera":"64"}
+]
 }

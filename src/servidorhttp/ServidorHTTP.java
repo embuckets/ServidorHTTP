@@ -17,6 +17,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -112,7 +114,7 @@ public class ServidorHTTP {
     }
 
     public static void saveAsJSON(List<Properties> properties) {
-        File json = new File("pacientes/json.json");
+        File json = new File("web/pacientes/pacientes.json");
         try (FileWriter writer = new FileWriter(json)) {
             writer.write("{\n\"pacientes\":[\n");
             for (Iterator it = properties.iterator(); it.hasNext();) {
@@ -231,6 +233,8 @@ public class ServidorHTTP {
             String[] kv = kvp.split("=");
             props.put(kv[0], kv[1]);
         }
+        props.remove("submit");
+        props.replace("correo", ((String)props.get("correo")).replace("%40", "@"));
         return props;
     }
 
