@@ -5,9 +5,15 @@
  */
 package servidorhttp;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,7 +26,9 @@ import static org.junit.Assert.*;
  * @author emilio
  */
 public class ServidorHTTPTest {
+
     private List<Properties> props;
+
     public ServidorHTTPTest() {
     }
 
@@ -45,7 +53,7 @@ public class ServidorHTTPTest {
         property.put("paterno", "gomez");
         property.put("materno", "chagoya");
         props.add(property);
-        
+
     }
 
     @After
@@ -72,7 +80,7 @@ public class ServidorHTTPTest {
         props.put("materno", "segovia");
         System.out.println(ServidorHTTP.toJSON(props));
     }
-    
+
     @Test
     public void testSaveAsJSON() {
         ServidorHTTP.saveAsJSON(props);
@@ -127,6 +135,27 @@ public class ServidorHTTPTest {
         expectedProperties.put("submit", "Enviar");
 
         System.out.println(servidorhttp.ServidorHTTP.propertiesToHtml(expectedProperties));
+    }
+
+    @Test
+    public void testSaveAsXML() {
+        Properties expectedProperties = new Properties();
+        expectedProperties.put("nombre", "Emilio");
+        expectedProperties.put("paterno", "Hernandez");
+        expectedProperties.put("materno", "Segovia");
+        expectedProperties.put("peso", "64");
+        expectedProperties.put("estatura", "1.72");
+        expectedProperties.put("cintura", "65");
+        expectedProperties.put("cadera", "60");
+        expectedProperties.put("correo", "mok.boss@hotmail.com");
+        expectedProperties.put("telefono", "55-21-19-55-14");
+        expectedProperties.put("sexo", "h");
+        List<Properties> list = new ArrayList<>();
+        list.add(expectedProperties);
+        list.add(expectedProperties);
+        
+        ServidorHTTP.saveAsXML(list);
+
     }
 
     @Test

@@ -112,6 +112,16 @@ public class ServidorHTTP {
         result = result.substring(0, result.length() - 2) + "}";
         return result;
     }
+    public static String toXML(Properties properties){
+        String indent = "    ";
+        String result = "<PACIENTE>\n";
+        for (Entry entry : properties.entrySet()){
+            result += indent + indent + "<" + entry.getKey() + ">" + entry.getValue() + "</" + entry.getKey() + ">\n";
+        }
+        result += indent + "</PACIENTE>\n";
+        
+        return result;
+    }
 
     public static void saveAsJSON(List<Properties> properties) {
         File json = new File("web/pacientes/pacientes.json");
@@ -130,6 +140,23 @@ public class ServidorHTTP {
             Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void saveAsXML(List<Properties> properties){
+        String indent = "    ";
+        File json = new File("web/pacientes/pacientes.xml");
+        try (FileWriter writer = new FileWriter(json)) {
+            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PACIENTES>\n");
+            for (Properties prop : properties){
+                writer.write(indent + toXML(prop));
+            }
+            writer.write("</PACIENTES>");
+            writer.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
 
     private static void pageNotFound(Socket socket) {
         File file = new File("notfound.html");

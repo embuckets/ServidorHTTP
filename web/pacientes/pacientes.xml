@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PACIENTES>
+    <PACIENTE>
+        <materno>Segovia</materno>
+        <sexo>h</sexo>
+        <cintura>65</cintura>
+        <paterno>Hernandez</paterno>
+        <telefono>55-21-19-55-14</telefono>
+        <estatura>1.72</estatura>
+        <correo>mok.boss@hotmail.com</correo>
+        <nombre>Emilio</nombre>
+        <peso>64</peso>
+        <cadera>60</cadera>
+    </PACIENTE>
+    <PACIENTE>
+        <materno>Segovia</materno>
+        <sexo>h</sexo>
+        <cintura>65</cintura>
+        <paterno>Hernandez</paterno>
+        <telefono>55-21-19-55-14</telefono>
+        <estatura>1.72</estatura>
+        <correo>mok.boss@hotmail.com</correo>
+        <nombre>Emilio</nombre>
+        <peso>64</peso>
+        <cadera>60</cadera>
+    </PACIENTE>
+</PACIENTES>
