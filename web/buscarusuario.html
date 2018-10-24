@@ -6,16 +6,146 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mi Cheff</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
     <script src="persona.js"></script>
     <script>
+        var listaPacientes = [];
+        var xhttp, jsonDoc;
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                jsonDoc = this.responseText;
+                var jsonObj = JSON.parse(jsonDoc);
+                for (i in jsonObj.pacientes) {
+                    var pacienteJSON = jsonObj.pacientes[i];
+                    var paciente = new Persona(pacienteJSON["nombre"],
+                        pacienteJSON["paterno"],
+                        pacienteJSON["materno"],
+                        pacienteJSON["edad"],
+                        pacienteJSON["peso"],
+                        pacienteJSON["estatura"],
+                        pacienteJSON["cintura"],
+                        pacienteJSON["cadera"],
+                        pacienteJSON["correo"],
+                        pacienteJSON["telefono"],
+                        pacienteJSON["genero"],
+                        pacienteJSON["civil"]);
+                    listaPacientes.push(paciente);
+                }
+            }
+            createSelect();
+            createList();
+        };
+        xhttp.open("GET", "pacientes/pacientes.json", true);
+        xhttp.send();
 
+        function createSelect() {
+            var select = document.getElementById("sel");
+            var opt;
+            for (i = 0; i < listaPacientes.length; i++){
+                opt = document.createElement("option");
+                opt.value = i;
+                opt.text = listaPacientes[i].getNombreCompleto();
+                select.add(opt);
+            }
+        };
+
+        function detalles() {
+            var select = document.getElementById("sel");
+            var paciente = listaPacientes[select.selectedIndex];
+            var tablaBody = document.getElementById("body");
+            tablaBody.deleteRow(0);
+            var row = tablaBody.insertRow(0);
+            row.insertCell(0).innerHTML = paciente.nombre;
+            row.insertCell(1).innerHTML = paciente.paterno;
+            row.insertCell(2).innerHTML = paciente.materno;
+            row.insertCell(3).innerHTML = paciente.nacimiento.toLocaleDateString();
+            row.insertCell(4).innerHTML = paciente.peso;
+            row.insertCell(5).innerHTML = paciente.estatura;
+            row.insertCell(6).innerHTML = paciente.cintura;
+            row.insertCell(7).innerHTML = paciente.cadera;
+            row.insertCell(8).innerHTML = paciente.correo;
+            row.insertCell(9).innerHTML = paciente.telefono;
+            row.insertCell(10).innerHTML = paciente.genero;
+            row.insertCell(11).innerHTML = paciente.estadoCivil;
+        }
+
+        function createList() {
+            var list = document.getElementById("mylist");
+            var item;
+            for (i = 0; i < listaPacientes.length; i++){
+                item = document.createElement("li");
+                item.innerHTML = listaPacientes[i].getNombreCompleto();
+                item.id = i;
+                item.setAttribute("onClick", "detalleList(this)")
+                list.appendChild(item);
+            }
+
+        }
+        function detalleList(item){
+            var paciente = listaPacientes[item.id];
+            var tablaBody = document.getElementById("body");
+            tablaBody.deleteRow(0);
+            var row = tablaBody.insertRow(0);
+            row.insertCell(0).innerHTML = paciente.nombre;
+            row.insertCell(1).innerHTML = paciente.paterno;
+            row.insertCell(2).innerHTML = paciente.materno;
+            row.insertCell(3).innerHTML = paciente.nacimiento.toLocaleDateString();
+            row.insertCell(4).innerHTML = paciente.peso;
+            row.insertCell(5).innerHTML = paciente.estatura;
+            row.insertCell(6).innerHTML = paciente.cintura;
+            row.insertCell(7).innerHTML = paciente.cadera;
+            row.insertCell(8).innerHTML = paciente.correo;
+            row.insertCell(9).innerHTML = paciente.telefono;
+            row.insertCell(10).innerHTML = paciente.genero;
+            row.insertCell(11).innerHTML = paciente.estadoCivil;
+
+        }
     </script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td, th {
+            padding: 1em;
+        }
+        th {
+            border-bottom: 1px solid gray;
+        }
+        li:hover {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Mi Cheff</h1>
     <p>Eliga un paciente de la lista para ver sus datos</p>
+    <select name="pacientes-sel" id="sel"></select>
+    <button onclick="detalles()">Detalles</button>
+    <table id="tabla">
+            <!-- nombre, paterno, materno, nacimiento, peso, estatura, cintura, cadera, correo, telefono, genero, estadoCivil -->
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apeliido Materno</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Peso</th>
+                <th>Estatura</th>
+                <th>Cintura</th>
+                <th>Cadera</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>Genero</th>
+                <th>Estado Civil</th>
+            </tr>
+        </thead>
+        <tbody id="body">
+            <tr></tr>
+        </tbody>
+    </table>
+
+    <ul id="mylist"></ul>
 
 </body>
 
