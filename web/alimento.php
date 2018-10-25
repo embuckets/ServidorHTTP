@@ -1,25 +1,32 @@
 <?php
 class Alimento {
-    var $nombre;
-    var $categoria;
-    var $porcion;
+    private $nombre;
+    private $categoria;
+    private $porcion;
 
-    public function toString(){
-        echo $this->nombre, PHP_EOL;
-        echo $this->categoria , PHP_EOL;
-        echo $this->porcion , PHP_EOL;
-    }
-
-    public function Alimento($nombre, $categoria, $porcion){
+    public function __construct (
+        string $nombre,
+        string $categoria,
+        string $porcion
+    ) {
         $this->nombre = $nombre;
         $this->categoria = $categoria;
         $this->porcion = $porcion;
     }
-}
+    
+    public function getNombre(): string {
+        return $this->nombre;
+    }
+    public function getCategoria(): string {
+        return $this->categoria;
+    }
+    public function getPorcion(): string {
+        return $this->porcion;
+    }
 
-$ali = new Alimento('caldo de pollo', 'animal', '2 tazas');
-// $ali->nombre = 'caldo de pollo';
-// $ali->categoria = 'animal';
-// $ali->porcion = '2 tazas';
-$ali->toString();
+    public function toh1(): string {
+        $result = '<h1>' . $this->nombre . '<h1>';
+        return $result;
+    }
+}
 ?>
