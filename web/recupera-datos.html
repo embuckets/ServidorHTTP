@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mi Cheff</title>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+        var lastRowIndex = 0;
+        function requestDatos() {
+            var xhttp, jsonDoc;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var txt = xhttp.responseText;
+                    createTable(txt);
+                }
+            };
+            xhttp.open("GET", "resources/coordenadas.txt", true);
+            xhttp.send();
+        };
+
+        function createTable(txt) {
+            var rows = txt.split("\n");
+            for (var i = lastRowIndex; i < rows.length - 1; i++) {
+                var coord = parseData(rows[i]);
+                var body = document.getElementById("coordenadas-body");
+                var newRow = body.insertRow();
+                newRow.insertCell(0).innerHTML = coord[0];
+                newRow.insertCell(1).innerHTML = coord[1];
+            }
+            lastRowIndex = rows.length - 1;
+
+        };
+
+        function parseData(coord) {
+            var result = [];
+            var coordArray = coord.split("|");
+            var x = coordArray[0].substring(1, coordArray[0].length);
+            var y = coordArray[1].substring(0, coordArray[1].length - 1);
+            result.push(x);
+            result.push(y);
+            return result;
+        }
+    </script>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        td,
+        th {
+            border-bottom: 1px solid black;
+            padding: 0.7em;
+        }
+        th {
+            background-color: black;
+            color: white;
+        }
+        tr:nth-child(odd) {
+            background-color: lightblue;
+        }
+        tr:nth-child(even) {
+            background-color: white;
+        }
+
+    </style>
+</head>
+
+<body onload="setInterval(requestDatos,5000)">
+    <table id="coordenadas">
+        <thead>
+            <tr>
+                <th>X</th>
+                <th>Y</th>
+            </tr>
+        </thead>
+        <tbody id="coordenadas-body">
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>
