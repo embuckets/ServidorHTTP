@@ -4,24 +4,12 @@
     $password = "labsim";
     $dbname = "espacios";
 
-    // Create connection
-    //$conn = new mysqli($servername, $username, $password, $dbname);
-    //// Check connection
-    //if ($conn->connect_error) {
-    //    die("Connection failed: " . $conn->connect_error);
-    //} 
-//
-    //$sql = "INSERT INTO MyGuests (firstname, lastname, email)
-    //VALUES ('John', 'Doe', 'john@example.com')";
-//
-    //if ($conn->query($sql) === TRUE) {
-    //    echo "New record created successfully";
-    //} else {
-    //    echo "Error: " . $sql . "<br>" . $conn->error;
-    //}
-//
-    //$conn->close();
-
+    //Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
     $txt_file    = file_get_contents('data.csv');
     $rows        = explode("\n", $txt_file);
@@ -49,6 +37,25 @@
         echo $luminosidad;
         echo $humedad;
         echo PHP_EOL;
+
+        $sql = "INSERT INTO lecturas ("$nodo . "," . $tiempo . "," .  "firstname, lastname, email)
+    VALUES ('John', 'Doe', 'john@example.com')";
+
+
     }
+
+    $sql = "INSERT INTO MyGuests (firstname, lastname, email)
+    VALUES ('John', 'Doe', 'john@example.com')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+
+
+    
 
 ?>
