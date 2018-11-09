@@ -35,6 +35,11 @@ import java.util.logging.Logger;
 public class ServidorHTTP {
 
     private static List<Properties> propiedades = new ArrayList<>();
+    private static MIMEType mimeTypes = new MIMEType();
+    private final String WEB_PAGES_DIR = "web/";
+    private final String IMAGES_DIR = "web/images/";
+    private final String SCRIPTS_DIR = "web/scripts/";
+    private final String STYLES_DIR = "web/styles/";
 
     /**
      * @param args the command line arguments
@@ -45,54 +50,38 @@ public class ServidorHTTP {
 
             while (true) {
                 Socket cliente = socket.accept();
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(cliente.getInputStream()));
-
+                BufferedReader reader = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                 String input = reader.readLine();
+                List<String> request = new ArrayList<>();
+                while (reader.ready()) {
+                    request.add(reader.readLine());
+                }
                 System.out.println(input);
-                System.out.println(reader.readLine());
-                System.out.println(reader.readLine());
-                System.out.println(reader.readLine());
-                System.out.println(reader.readLine());
-                System.out.println(reader.readLine());
-                System.out.println(reader.readLine());
-                System.out.println(reader.readLine());
-//                System.out.println(reader.readLine());
+                request.stream().forEach((l) -> System.out.println(l));
                 System.out.println();
+                request.clear();
 
                 if (input == null) {
                     continue;
                 }
-
                 String[] tokens = input.split(" ");
                 String recurso = tokens[1];
                 responder(cliente, recurso.substring(1));
             }
         } catch (IOException ex) {
-            Logger.getLogger(
-                    ServidorHTTP.class.getName()).log(
-                    Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
     private static void responder(Socket socket, String recurso) {
 
-        if (isResource(recurso)) {
+        if (isRecurso(recurso)) {
             File file = new File(recurso);
             if (!file.exists()) {
-                pageNotFound(socket);
+                sendResponse(socket, "web/notfound.html", "404");
                 return;
-            }
-            String[] archivo = recurso.split("\\.");
-            String extension = archivo[archivo.length - 1];
-
-            if (isTextFile(extension)) {
-                sendWebPage(socket, recurso);
-                return;
-
-            } else if (isImage(extension)) {
-                sendImage(socket, recurso);
-                return;
+            } else {
+                sendResponse(socket, recurso, "200");
             }
         } else { //si es GET de formulario
             //guardar properties en formato json 
@@ -104,6 +93,75 @@ public class ServidorHTTP {
 
     }
 
+    public static boolean isRecurso(String recurso) {
+        return !recurso.contains("?");
+    }
+
+    private static void sendResponse(Socket socket, String recurso, String code) {
+        try (ByteArrayOutputStream byteWriter = new ByteArrayOutputStream();
+                PrintWriter stringWriter = new PrintWriter(socket.getOutputStream())) {
+            File file = new File(recurso);
+            String charContents = null;
+            byte[] byteContents = null;
+            String header = makeHeader(file, recurso, code);
+            if (mimeTypes.isCharEncoded('.' + recurso.split("\\.")[1])) {
+                charContents = readAsString(recurso);
+                stringWriter.write(header + charContents);
+                stringWriter.flush();
+            } else {
+                byteContents = readAsByte(recurso);
+                stringWriter.write(header);
+                stringWriter.flush();
+                byteWriter.write(byteContents);
+                byteWriter.writeTo(socket.getOutputStream());
+                byteWriter.flush();
+            }
+        } catch (FileNotFoundException ex1) {
+            ex1.printStackTrace();
+        } catch (IOException ex1) {
+            ex1.printStackTrace();
+        }
+    }
+
+    private static String makeHeader(File file, String resource, String code) {
+        String result = "HTTP/1.1 ";
+        result += (code.equals("200") ? "200 OK" : "404 Not Found");
+        result += "\nContent-length: " + file.length();
+        result += "\nContent-type: " + mimeTypes.getMIMEType('.' + resource.split("\\.")[1]);
+        result += "\n\n";
+        return result;
+    }
+
+    private static byte[] readAsByte(String resource) {
+        File file = new File(resource);
+        byte[] bytes = null;
+        try (FileInputStream fileReader = new FileInputStream(file);) {
+            bytes = new byte[(int) file.length()];
+            fileReader.read(bytes, 0, bytes.length);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return bytes;
+    }
+
+    private static String readAsString(String resource) {
+        File file = new File(resource);
+        char[] contents = null;
+        String result = null;
+        try (FileReader fileReader = new FileReader(file);) {
+            contents = new char[(int) file.length()];
+            fileReader.read(contents, 0, contents.length);
+            result = String.valueOf(contents);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
     public static String toJSON(Properties properties) {
         String result = "{";
         for (Entry set : properties.entrySet()) {
@@ -112,14 +170,15 @@ public class ServidorHTTP {
         result = result.substring(0, result.length() - 2) + "}";
         return result;
     }
-    public static String toXML(Properties properties){
+
+    public static String toXML(Properties properties) {
         String indent = "    ";
         String result = "<PACIENTE>\n";
-        for (Entry entry : properties.entrySet()){
+        for (Entry entry : properties.entrySet()) {
             result += indent + indent + "<" + entry.getKey() + ">" + entry.getValue() + "</" + entry.getKey() + ">\n";
         }
         result += indent + "</PACIENTE>\n";
-        
+
         return result;
     }
 
@@ -140,13 +199,13 @@ public class ServidorHTTP {
             Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void saveAsXML(List<Properties> properties){
+
+    public static void saveAsXML(List<Properties> properties) {
         String indent = "    ";
         File json = new File("web/pacientes/pacientes.xml");
         try (FileWriter writer = new FileWriter(json)) {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PACIENTES>\n");
-            for (Properties prop : properties){
+            for (Properties prop : properties) {
                 writer.write(indent + toXML(prop));
             }
             writer.write("</PACIENTES>");
@@ -154,77 +213,7 @@ public class ServidorHTTP {
         } catch (IOException ex) {
             Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }
-    
 
-    private static void pageNotFound(Socket socket) {
-        File file = new File("notfound.html");
-        try (FileReader fileReader = new FileReader(file);
-                PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-            char[] html = new char[(int) file.length()];
-            fileReader.read(html, 0, html.length);
-            String header = "HTTP/1.1 404 Not Found\nContent-length: " + file.length() + "\nContent-type: text/html\n\n";
-            String respuesta = header + String.valueOf(html);
-            writer.write(respuesta);
-            writer.flush();
-        } catch (FileNotFoundException ex1) {
-            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (IOException ex1) {
-            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex1);
-        }
-
-    }
-
-    public static boolean isResource(String recurso) {
-        return !recurso.contains("?");
-    }
-
-    private static boolean isTextFile(String extension) {
-        return (extension.equals("csv") || extension.equals("html") || extension.equals("css") || extension.equals("json") || extension.equals("js") || extension.equals("txt"));
-    }
-
-    private static boolean isImage(String extension) {
-        return (extension.equals("png") || extension.equals("jpg"));
-    }
-
-    private static void sendWebPage(Socket socket, String recurso) {
-        File file = new File(recurso);
-        try (FileReader fileReader = new FileReader(file);
-                PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-            char[] html = new char[(int) file.length()];
-            fileReader.read(html, 0, html.length);
-            String header = "HTTP/1.1 200 OK\nContent-length: " + file.length() + "\nContent-type: text/" + recurso.split("\\.")[1] + "\n\n";
-            String respuesta = header + String.valueOf(html);
-            writer.write(respuesta);
-            writer.flush();
-        } catch (FileNotFoundException ex1) {
-            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (IOException ex1) {
-            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex1);
-        }
-    }
-
-    private static void sendImage(Socket socket, String recurso) {
-        File file = new File(recurso);
-
-        try (FileInputStream fileReader = new FileInputStream(file);
-                ByteArrayOutputStream byteWriter = new ByteArrayOutputStream();
-                PrintWriter stringWriter = new PrintWriter(socket.getOutputStream())) {
-
-            byte[] imagen = new byte[(int) file.length()];
-            fileReader.read(imagen, 0, imagen.length);
-            String header = "HTTP/1.1 200 OK\nContent-length: " + file.length() + "\nContent-type: image/" + recurso.split("\\.")[1] + "\n\n";
-            stringWriter.write(header);
-            stringWriter.flush();
-            byteWriter.write(imagen);
-            byteWriter.writeTo(socket.getOutputStream());
-
-        } catch (FileNotFoundException ex1) {
-            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (IOException ex1) {
-            Logger.getLogger(ServidorHTTP.class.getName()).log(Level.SEVERE, null, ex1);
-        }
     }
 
     private static void sendData(Socket socket, Properties data) {
@@ -261,7 +250,7 @@ public class ServidorHTTP {
             props.put(kv[0], kv[1]);
         }
         props.remove("submit");
-        props.replace("correo", ((String)props.get("correo")).replace("%40", "@"));
+        props.replace("correo", ((String) props.get("correo")).replace("%40", "@"));
         return props;
     }
 
@@ -272,3 +261,4 @@ public class ServidorHTTP {
     }
 
 }
+
