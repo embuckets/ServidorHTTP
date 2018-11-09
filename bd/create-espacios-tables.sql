@@ -95,7 +95,7 @@ ENGINE = InnoDB;
 -- Table `espacios`.`nodos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `espacios`.`nodos` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL, 
   `rango` INT NULL,
   `espacio_edificio` VARCHAR(5) NULL,
   `espacio_numero` INT NULL,
@@ -157,7 +157,6 @@ CREATE TABLE IF NOT EXISTS `espacios`.`lecturas` (
   `humedad` INT NOT NULL,
   `hora` VARCHAR(20) NOT NULL,
   INDEX `fk_nodo_idx` (`nodo` ASC),
-  PRIMARY KEY (`nodo`),
   CONSTRAINT `fk_nodo`
     FOREIGN KEY (`nodo`)
     REFERENCES `espacios`.`nodos` (`id`)
@@ -165,6 +164,16 @@ CREATE TABLE IF NOT EXISTS `espacios`.`lecturas` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+INSERT INTO nodos (id,rango) values(0,20);
+INSERT INTO nodos (id,rango) values(1,20);
+INSERT INTO nodos (id,rango) values(2,20);
+INSERT INTO nodos (id,rango) values(3,20);
+INSERT INTO nodos (id,rango) values(4,20);
+INSERT INTO nodos (id,rango) values(5,20);
+INSERT INTO nodos (id,rango) values(6,20);
+INSERT INTO nodos (id,rango) values(7,20);
+INSERT INTO nodos (id,rango) values(8,20);
+INSERT INTO nodos (id,rango) values(9,20);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

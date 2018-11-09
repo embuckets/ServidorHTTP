@@ -181,7 +181,7 @@ public class ServidorHTTP {
     }
 
     private static boolean isTextFile(String extension) {
-        return (extension.equals("html") || extension.equals("css") || extension.equals("json") || extension.equals("js") || extension.equals("txt"));
+        return (extension.equals("csv") || extension.equals("html") || extension.equals("css") || extension.equals("json") || extension.equals("js") || extension.equals("txt"));
     }
 
     private static boolean isImage(String extension) {
