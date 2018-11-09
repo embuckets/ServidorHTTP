@@ -2,7 +2,7 @@
 // MySQLi Object-Oriented
 $servername = "localhost";
 $username = "root";
-$password = "labsim";
+$password = "evangelion01";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password);

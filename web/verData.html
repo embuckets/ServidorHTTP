@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mi Cheff</title>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+        var lastRowIndex = 0;
+        function requestDatos() {
+            var xhttp, jsonDoc;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var txt = xhttp.responseText;
+                    createTable(txt);
+                }
+            };
+            xhttp.open("GET", "resources/datos-base.csv", true);
+            xhttp.send();
+        };
+
+        function createTable(txt) {
+            var rows = txt.split("\n");
+            for (var i = lastRowIndex; i < rows.length - 1; i++) {
+                var coord = parseData(rows[i]);
+                var body = document.getElementById("coordenadas-body");
+                var newRow = body.insertRow();
+                for (var j = 0; j < coord.length; j++) {
+                    newRow.insertCell(j).innerHTML = coord[j];
+                }
+            }
+            lastRowIndex = rows.length - 1;
+
+        };
+
+        function parseData(coord) {
+            var coordArray = coord.split(",");
+            return coordArray;
+        }
+    </script>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        td,
+        th {
+            border-bottom: 1px solid black;
+            padding: 0.7em;
+            text-align: center;
+        }
+
+        th {
+            background-color: black;
+            color: white;
+        }
+
+        tr:nth-child(odd) {
+            background-color: lightblue;
+        }
+
+        tr:nth-child(even) {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body onload="setInterval(requestDatos,5000)">
+    <table id="coordenadas">
+        <thead>
+            <tr>
+                <th>Nodo</th>
+                <th>posX</th>
+                <th>posY</th>
+                <th>Temperatura</th>
+                <th>Luminosidad</th>
+                <th>Humedad</th>
+                <th>Hora</th>
+            </tr>
+        </thead>
+        <tbody id="coordenadas-body">
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>

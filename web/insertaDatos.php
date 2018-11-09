@@ -1,7 +1,7 @@
 <?php
     $servername = "localhost";
     $username = "root";
-    $password = "labsim";
+    $password = "evangelion01";
     $dbname = "espacios";
 
     //Create connection
@@ -20,15 +20,16 @@
         //get row data
         $row_data = explode(',', $data);
     
-        $nodo           = $row_data[0];
-        $tiempo       = $row_data[1];
-        $posx  = $row_data[2];
-        $posy       = $row_data[3];
-        $temperatura       = $row_data[4];
-        $luminosidad       = $row_data[5];
-        $humedad       = $row_data[6];
+        $nodo = $row_data[0];
+        $tiempo = $row_data[1];
+        $posx = $row_data[2];
+        $posy = $row_data[3];
+        $temperatura = $row_data[4];
+        $luminosidad = $row_data[5];
+        $humedad = $row_data[6];
     
         //display data
+        echo "Se leyeron:" . PHP_EOL;
         echo $nodo;
         echo $tiempo;
         echo $posx;
@@ -38,24 +39,17 @@
         echo $humedad;
         echo PHP_EOL;
 
-        $sql = "INSERT INTO lecturas ("$nodo . "," . $tiempo . "," .  "firstname, lastname, email)
-    VALUES ('John', 'Doe', 'john@example.com')";
-
-
+        $stmt = $conn->prepare("insert into lecturas (nodo,posicionx,posiciony,temperatura,luminosidad,humedad,hora) values(?,?,?,?,?,?,?)");
+        $stmt->bind_param("iddiiis", $nodo,$posx,$posy,$temperatura,$luminosidad,$humedad,$tiempo);
+        
+        
+        if ($stmt->execute()) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $conn->errno;
+            echo "New record was not inserted";
+        }
+        sleep(5);
     }
-
-    $sql = "INSERT INTO MyGuests (firstname, lastname, email)
-    VALUES ('John', 'Doe', 'john@example.com')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
     $conn->close();
-
-
-    
-
 ?>

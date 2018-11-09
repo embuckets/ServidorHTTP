@@ -15,7 +15,7 @@
                     createTable(txt);
                 }
             };
-            xhttp.open("GET", "resources/coordenadas.txt", true);
+            xhttp.open("GET", "resources/datos-base.csv", true);
             xhttp.send();
         };
 
@@ -25,21 +25,32 @@
                 var coord = parseData(rows[i]);
                 var body = document.getElementById("coordenadas-body");
                 var newRow = body.insertRow();
-                newRow.insertCell(0).innerHTML = coord[0];
-                newRow.insertCell(1).innerHTML = coord[1];
+                for (var j = 0; j < coord.length; j++) {
+                    newRow.insertCell(j).innerHTML = coord[j];
+                    // newRow.insertCell(1).innerHTML = coord[1];
+                    // newRow.insertCell(2).innerHTML = coord[2];
+                    // newRow.insertCell(3).innerHTML = coord[3];
+                    // newRow.insertCell(4).innerHTML = coord[4];
+                    // newRow.insertCell(5).innerHTML = coord[5];
+                    // newRow.insertCell(6).innerHTML = coord[6];
+                }
             }
             lastRowIndex = rows.length - 1;
 
         };
 
         function parseData(coord) {
-            var result = [];
-            var coordArray = coord.split("|");
-            var x = coordArray[0].substring(1, coordArray[0].length);
-            var y = coordArray[1].substring(0, coordArray[1].length - 1);
-            result.push(x);
-            result.push(y);
-            return result;
+            var coordArray = coord.split(",");
+            return coordArray;
+            // var nodo = coordArray[0];
+            // var tiempo = coordArray[1];
+            // var posx = coordArray[2];
+            // var posy = coordArray[3];
+            // var temp = coordArray[4];
+            // var lumi = coordArray[5];
+            // var humedad = coordArray[6];
+            // var result = [nodo, tiempo, posx, posy, temp, lumi, humedad];
+            // return result;
         }
     </script>
     <style>
@@ -53,17 +64,19 @@
             border-bottom: 1px solid black;
             padding: 0.7em;
         }
+
         th {
             background-color: black;
             color: white;
         }
+
         tr:nth-child(odd) {
             background-color: lightblue;
         }
+
         tr:nth-child(even) {
             background-color: white;
         }
-
     </style>
 </head>
 
