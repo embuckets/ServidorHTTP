@@ -2,7 +2,7 @@
 // MySQLi Object-Oriented
     $servername = "localhost";
     $username = "root";
-    $password = "labsim";
+    $password = "evangelion01";
     
     // Create connection
     $conn = new mysqli($servername, $username, $password);
@@ -14,7 +14,8 @@
     echo "Connected successfully" . PHP_EOL;
     $baseDatos = $_POST["nombre"];
     $query = "create database " . $baseDatos;
-    if ($conn->query($sql) === TRUE) {
+    echo $query . PHP_EOL;
+    if ($conn->query($query) === TRUE) {
         echo "Database created successfully";
     } else {
         echo "Error creating database: " . $conn->error;

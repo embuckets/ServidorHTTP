@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Crear tabla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <h1>Crear Tabla</h1>
+    <form action="crear-tabla.php">
+        <label for="tabla">Nombre</label><input type="text" name="tabla" placeholder="Nombre de la tabla"><br>
+        <label for="pk">PK</label><input type="text" name="pk" placeholder="Primary Key">
+        <select name="types" id="types">
+            <option value="int">int</option>
+            <option value="varchar">varchar()</option>
+            <option value="char">char()</option>
+        </select>
+        <div id="more-cols">
+            <div class="row">
+                <label for="col">Columna</label><input type="text" name="col">
+                <select name="types" id="types">
+                    <option value="int">int</option>
+                    <option value="varchar">varchar()</option>
+                    <option value="char">char()</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
