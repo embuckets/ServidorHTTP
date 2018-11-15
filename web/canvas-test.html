@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Canvas Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+    <style>
+        canvas {
+            border: 1px solid black;
+            display: block;
+        }
+        .fc {
+            display: flex;
+            flex-flow: row wrap;
+        }
+        .fc > * {
+            flex: 1;
+        }
+        .fc {
+            min-width: 100vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="fc">
+        <aside>
+
+            <canvas id="mycanvas" width="200px" height="200px">
+                <script>
+                    var canvas = document.getElementById("mycanvas");
+                    var ctx = canvas.getContext("2d");
+                    ctx.translate(0, 200);
+                    setInterval(draw, 1000);
+        
+                    function draw() {
+                        ctx.clearRect (0, -canvas.height, canvas.width , canvas.height);
+                        var x = getRndInteger(0, 200);
+                        var y = getRndInteger(0, 200);
+                        ctx.fillStyle = "red";
+                        ctx.beginPath();
+                        ctx.arc(x, -y, 15, 0, 2 * Math.PI);
+                        ctx.closePath();
+                        // ctx.stroke();
+                        ctx.fill();
+        
+                        var x = getRndInteger(0, 200);
+                        var y = getRndInteger(0, 200);
+                        ctx.fillStyle = "blue";
+                        ctx.beginPath();
+                        ctx.arc(x, -y, 15, 0, 2 * Math.PI);
+                        ctx.closePath();
+                        // ctx.stroke();
+                        ctx.fill();
+                    }
+        
+                    function getRndInteger(min, max) {
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                    }
+                </script>
+            </canvas>
+        </aside>
+        <aside>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nodo</th>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </aside>
+    </div>
+</body>
+
+</html>

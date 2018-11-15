@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Canvas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+    <style>
+        canvas {
+            border: 1px solid black;
+            background-color: lightgray;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 1em;
+        }
+    </style>
+</head>
+
+<body onload="setInterval(requestDatos,5000)">
+    <canvas id="mycanvas" width="400" height="400"></canvas>
+    <table>
+        <thead>
+            <tr>
+                <th>Nodo</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Hora</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+    <script>
+        var colorsbg = ["red", "blue", "green", "yellow", "orange", "purple", "brown", "pink", "gray"];
+        var colorsfg = ["white", "white", "black", "black", "black", "white", "white", "black", "black"];
+        var canvas = document.getElementById("mycanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.translate(0, canvas.height);
+
+        function requestDatos() {
+            var xhttp, jsonDoc;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var txt = xhttp.responseText;
+                    display(JSON.parse(txt));
+                }
+            };
+            xhttp.open("GET", "nodos.json", true);
+            xhttp.send();
+        }
+
+        function display(myJson) {
+            //clear canvas
+            ctx.clearRect(0, -canvas.height, canvas.width, canvas.height);
+            var index;
+            for (index in myJson.nodos) {
+                var nodo = myJson.nodos[index];
+                drawNodo(nodo);
+                updateTable(nodo);
+            }
+        }
+
+        function drawNodo(nodo) {
+            ctx.fillStyle = colorsbg[nodo.nodo];
+            ctx.beginPath();
+            ctx.arc(nodo.posicionx, -nodo.posiciony, 15, 0, 2 * Math.PI);
+            ctx.closePath();
+            // ctx.stroke();
+            ctx.fill();
+        }
+
+        function updateTable(nodo) {
+            var nodoRow = document.getElementById(Object.keys(nodo)[0] + nodo.nodo);
+            if (nodoRow == null) {
+                nodoRow = createRow(nodo);
+            }
+            else {
+                clearPreviousData(nodoRow);
+            }
+            fillRowData(nodoRow, nodo);
+        }
+
+        function createRow(nodo) {
+            var tableBody = document.getElementById("tbody");
+            var row = tableBody.insertRow(nodo.nodo);
+            row.id = Object.keys(nodo)[0] + nodo.nodo;
+            row.style.backgroundColor = colorsbg[nodo.nodo];
+            row.style.color = colorsfg[nodo.nodo];
+
+            return row;
+        }
+        function fillRowData(row, nodo) {
+            row.insertCell(0).innerHTML = nodo.nodo;
+            row.insertCell(1).innerHTML = nodo.posicionx;
+            row.insertCell(2).innerHTML = nodo.posiciony;
+            row.insertCell(3).innerHTML = nodo.hora;
+        }
+
+        function clearPreviousData(row) {
+            while (row.firstChild) {
+                row.removeChild(row.firstChild);
+            }
+        }
+
+    </script>
+</body>
+
+</html>

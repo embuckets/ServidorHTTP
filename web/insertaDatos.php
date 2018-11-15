@@ -29,22 +29,14 @@
         $humedad = $row_data[6];
     
         //display data
-        echo "Se leyeron:" . PHP_EOL;
-        echo $nodo;
-        echo $tiempo;
-        echo $posx;
-        echo $posy;
-        echo $temperatura;
-        echo $luminosidad;
-        echo $humedad;
-        echo PHP_EOL;
-
+        
         $stmt = $conn->prepare("insert into lecturas (nodo,posicionx,posiciony,temperatura,luminosidad,humedad,hora) values(?,?,?,?,?,?,?)");
         $stmt->bind_param("iddiiis", $nodo,$posx,$posy,$temperatura,$luminosidad,$humedad,$tiempo);
         
         
         if ($stmt->execute()) {
-            echo "New record created successfully";
+            echo "Se inserto: {$nodo}, {$tiempo}, {$posx}, {$posy}, {$temperatura}, {$luminosidad}, {$humedad}" . PHP_EOL;
+            // echo "New record created successfully" . PHP_EOL;
         } else {
             echo "Error: " . $conn->errno;
             echo "New record was not inserted";
